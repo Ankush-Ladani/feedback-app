@@ -1,3 +1,4 @@
+import { func } from "prop-types";
 import React from "react";
 import styled from "styled-components";
 const Title = styled.h3`
@@ -43,7 +44,7 @@ const Input = styled.input`
   border: none;
   border: 2px solid gray;
 `;
-const Button = styled.button`
+const Button = styled.input`
   padding: 5px 10px;
   background: #00008b;
   color: #add8e6;
@@ -54,27 +55,53 @@ const Button = styled.button`
     cursor: pointer;
   }
 `;
-
 const MainDiv = () => {
+  const [text, setText] = React.useState("");
+  const [btnDisabled , setBtnDisabled] = React.useState(false);
+  const [message , setMessage] = React.useState("");
+  const [selected , setSelected] = React.useState("");
+  function handleClick(e){
+    setSelected(e.target.value)
+    console.log(selected);
+  }
+  function addFeedback() {
+    console.log(text);
+  }
+  function showTextInput(e) {
+    if(text === ''){
+      setBtnDisabled(true);
+      setMessage(null);
+    }
+    else if(text !== '' && text.trim().length <= 10){
+      setBtnDisabled(true);
+      setMessage('Text must be at least 10 characters');
+    }
+    else{
+      setBtnDisabled(false);
+      setMessage(null);
+    }
+    setText(e.target.value);
+  }
   return (
     <Container>
       <Title>How would you rate your service with us?</Title>
       <NumberDiv>
-        <Numbers>1</Numbers>
-        <Numbers>2</Numbers>
-        <Numbers>3</Numbers>
-        <Numbers>4</Numbers>
-        <Numbers>5</Numbers>
-        <Numbers>6</Numbers>
-        <Numbers>7</Numbers>
-        <Numbers>8</Numbers>
-        <Numbers>9</Numbers>
-        <Numbers>10</Numbers>
+        <Numbers value="1" onClick={handleClick}>1</Numbers>
+        <Numbers  onClick={handleClick}>2</Numbers>
+        <Numbers  onClick={handleClick}>3</Numbers>
+        <Numbers  onClick={handleClick}>4</Numbers>
+        <Numbers  onClick={handleClick}>5</Numbers>
+        <Numbers  onClick={handleClick}>6</Numbers>
+        <Numbers  onClick={handleClick}>7</Numbers>
+        <Numbers  onClick={handleClick}>8</Numbers>
+        <Numbers onClick={handleClick}>9</Numbers>
+        <Numbers onClick={handleClick}>10</Numbers>
       </NumberDiv>
       <InputContainer>
-        <Input></Input>
-        <Button>Send</Button>
+        <Input placeholder="Write a Review" value={text} onChange={showTextInput}></Input>
+        <Button type="submit" disabled={btnDisabled} onClick={addFeedback} value="Submit"></Button>
       </InputContainer>
+      <div> {message} </div>
     </Container>
   );
 };
