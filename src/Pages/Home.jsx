@@ -1,15 +1,14 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
-import Navbar from "./Components/Navbar";
-import MainDiv from "./Components/MainDiv";
+import Navbar from "../Components/Navbar";
+import MainDiv from "../Components/MainDiv";
 import styled from "styled-components";
-import FeedbackList from "./Components/FeedbackList";
-import FeedbackData from "./FeedbackData/FeedbackData";
-import FeedbackItem from "./Components/FeedbackItem";
-import Home from "./Pages/Home";
-import FeedbackStats from "./Components/FeedbackStats";
+import FeedbackList from "../Components/FeedbackList";
+import FeedbackData from "../FeedbackData/FeedbackData";
+import FeedbackItem from "../Components/FeedbackItem";
+import FeedbackStats from "../Components/FeedbackStats";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AboutPage from "./Pages/AboutPage";
+import AboutPage from "../Pages/AboutPage";
 const Body = styled.div`
   background-color: #89abe3ff;
   height: 93.8vh;
@@ -18,7 +17,7 @@ const Body = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const App = () => {
+const Home = () => {
   const [feedback, setFeedback] = React.useState(FeedbackData);
   const deleteFeedback = (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
@@ -31,14 +30,14 @@ const App = () => {
     // console.log(newFeedback);
   };
   return (
-    <>
-      <Navbar></Navbar>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/about" element={<AboutPage />}></Route>
-      </Routes>
-    </>
+    <div className="BodyDiv">
+      <Body>
+        <MainDiv handleAdd={addFeedback} />
+        <FeedbackStats feedback={feedback} />
+        <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
+      </Body>
+    </div>
   );
 };
 
-export default App;
+export default Home;
