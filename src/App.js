@@ -1,4 +1,5 @@
 import React from "react";
+import {v4 as uuidv4} from "uuid";
 import Navbar from "./Components/Navbar";
 import MainDiv from "./Components/MainDiv";
 import styled from "styled-components";
@@ -21,11 +22,16 @@ const App = () => {
       setFeedback(feedback.filter((item) => item.id !== id));
     }
   };
+  const addFeedback = (newFeedback) => {
+    newFeedback.id = uuidv4();
+    setFeedback([newFeedback , ...feedback]);
+      // console.log(newFeedback);
+  }
   return (
     <div className="BodyDiv">
       <Navbar></Navbar>
       <Body>
-        <MainDiv></MainDiv>
+        <MainDiv handleAdd={addFeedback} />
         <FeedbackStats feedback={feedback} />
         <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
       </Body>

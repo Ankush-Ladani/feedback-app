@@ -1,10 +1,11 @@
 import { func } from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import RatingSelect from "./RatingSelect";
 const Title = styled.h3`
   margin-top: 20px;
 `;
-const Container = styled.div`
+const Container = styled.form`
   margin-top: 20px;
   background: #fcedda;
   width: 35vw;
@@ -55,37 +56,47 @@ const Button = styled.input`
     cursor: pointer;
   }
 `;
-const MainDiv = () => {
+const MainDiv = ({ handleAdd }) => {
   const [text, setText] = React.useState("");
-  const [btnDisabled , setBtnDisabled] = React.useState(false);
-  const [message , setMessage] = React.useState("");
-  const [selected , setSelected] = React.useState("");
-  function handleClick(e){
-    setSelected(e.target.value)
+  const [btnDisabled, setBtnDisabled] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [selected, setSelected] = React.useState("");
+  const [rating, setRating] = React.useState(10);
+  function handleClick(e) {
+    setSelected(e.target.value);
     console.log(selected);
   }
   function addFeedback() {
     console.log(text);
   }
   function showTextInput(e) {
-    if(text === ''){
+    if (text === "") {
       setBtnDisabled(true);
       setMessage(null);
-    }
-    else if(text !== '' && text.trim().length <= 10){
+    } else if (text !== "" && text.trim().length <= 10) {
       setBtnDisabled(true);
-      setMessage('Text must be at least 10 characters');
-    }
-    else{
+      setMessage("Text must be at least 10 characters");
+    } else {
       setBtnDisabled(false);
       setMessage(null);
     }
     setText(e.target.value);
   }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (text.trim().length > 10) {
+      const newFeedback = {
+        text,
+        rating,
+      };
+      handleAdd(newFeedback);
+      setText("");
+    }
+  };
   return (
-    <Container>
+    <Container onSubmit={handleSubmit}>
       <Title>How would you rate your service with us?</Title>
-      <NumberDiv>
+      {/* <NumberDiv>
         <Numbers value="1" onClick={handleClick}>1</Numbers>
         <Numbers  onClick={handleClick}>2</Numbers>
         <Numbers  onClick={handleClick}>3</Numbers>
@@ -96,10 +107,20 @@ const MainDiv = () => {
         <Numbers  onClick={handleClick}>8</Numbers>
         <Numbers onClick={handleClick}>9</Numbers>
         <Numbers onClick={handleClick}>10</Numbers>
-      </NumberDiv>
+      </NumberDiv> */}
+      <RatingSelect select={(rating) => setRating(rating)} />
       <InputContainer>
-        <Input placeholder="Write a Review" value={text} onChange={showTextInput}></Input>
-        <Button type="submit" disabled={btnDisabled} onClick={addFeedback} value="Submit"></Button>
+        <Input
+          placeholder="Write a Review"
+          value={text}
+          onChange={showTextInput}
+        ></Input>
+        <Button
+          type="submit"
+          disabled={btnDisabled}
+          onClick={addFeedback}
+          value="Submit"
+        ></Button>
       </InputContainer>
       <div> {message} </div>
     </Container>
