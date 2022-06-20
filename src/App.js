@@ -10,6 +10,7 @@ import Home from "./Pages/Home";
 import FeedbackStats from "./Components/FeedbackStats";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AboutPage from "./Pages/AboutPage";
+import Post from "./Components/Post";
 const Body = styled.div`
   background-color: #89abe3ff;
   height: 93.8vh;
@@ -36,9 +37,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/about" element={<AboutPage />}></Route>
+        {/* <Route path="/post/:id" element={<Post />}></Route> */}
+        {/* <Route path="/post" element={<Post />}></Route> */}
+        <Route path="/post/*" element={<Post />}></Route>
       </Routes>
     </>
   );
 };
+
+
 
 export default App;
